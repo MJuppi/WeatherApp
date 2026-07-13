@@ -84,10 +84,6 @@ fun App(
                     )
                 },
                 tempUnit = tempUnit,
-                onTempUnitChange = {
-                    val newUnit = if (tempUnit == "celsius") "fahrenheit" else "celsius"
-                    scope.launch { settingsManager.saveTempUnit(newUnit) }
-                },
                 forecastDays = forecastDays,
                 windUnit = windUnit,
                 precipUnit = precipUnit,

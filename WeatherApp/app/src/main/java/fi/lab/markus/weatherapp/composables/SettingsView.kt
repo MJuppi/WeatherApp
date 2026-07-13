@@ -31,7 +31,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import fi.lab.markus.weatherapp.R
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,12 +60,12 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = { Text(stringResource(id = R.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(id = R.string.back)
                         )
                     }
                 }
@@ -78,9 +80,9 @@ fun SettingsScreen(
                 .padding(16.dp)
         ) {
             // Appearance Section
-            SettingsSectionHeader("Appearance")
+            SettingsSectionHeader(stringResource(id = R.string.appearance))
             SettingRow(
-                label = "Dark Mode",
+                label = stringResource(id = R.string.dark_mode),
                 checked = isDarkTheme,
                 onCheckedChange = { onThemeToggle() }
             )
@@ -88,15 +90,15 @@ fun SettingsScreen(
             SettingsDivider()
 
             // Units Section
-            SettingsSectionHeader("Units")
+            SettingsSectionHeader(stringResource(id = R.string.units))
             SettingRow(
-                label = "Temperature in Fahrenheit",
+                label = stringResource(id = R.string.temp_fahrenheit),
                 checked = tempUnit == "fahrenheit",
                 onCheckedChange = { onTempUnitToggle() }
             )
             
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
-                Text(text = "Wind Speed Unit", style = MaterialTheme.typography.bodyLarge)
+                Text(text = stringResource(id = R.string.wind_speed_unit), style = MaterialTheme.typography.bodyLarge)
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -118,7 +120,7 @@ fun SettingsScreen(
             }
 
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
-                Text(text = "Precipitation Unit", style = MaterialTheme.typography.bodyLarge)
+                Text(text = stringResource(id = R.string.precip_unit), style = MaterialTheme.typography.bodyLarge)
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -136,11 +138,11 @@ fun SettingsScreen(
             SettingsDivider()
 
             // Preferences Section
-            SettingsSectionHeader("Preferences")
+            SettingsSectionHeader(stringResource(id = R.string.preferences))
             
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 Text(
-                    text = "Forecast Days: $forecastDays",
+                    text = stringResource(id = R.string.forecast_days_label, forecastDays),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Slider(
@@ -152,7 +154,7 @@ fun SettingsScreen(
             }
 
             SettingRow(
-                label = "Weather Notifications",
+                label = stringResource(id = R.string.notifications),
                 checked = notificationsEnabled,
                 onCheckedChange = { notificationsEnabled = it }
             )
@@ -160,13 +162,13 @@ fun SettingsScreen(
             SettingsDivider()
 
             // User Section
-            SettingsSectionHeader("Account")
+            SettingsSectionHeader(stringResource(id = R.string.account))
             OutlinedTextField(
                 value = userName,
                 onValueChange = { userName = it },
-                label = { Text("Display Name") },
+                label = { Text(stringResource(id = R.string.display_name)) },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                placeholder = { Text("Enter your name") }
+                placeholder = { Text(stringResource(id = R.string.enter_name)) }
             )
             
             Spacer(modifier = Modifier.padding(bottom = 32.dp))

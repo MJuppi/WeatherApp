@@ -38,10 +38,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
-import java.util.Locale
+import fi.lab.markus.weatherapp.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,7 +60,6 @@ class LocationInfoManager(private val viewModel: LocationViewModel) {
 
     // Lambdas to update the state in the composable
     private var _onSearchCity: (String) -> Unit = {}
-    private var _onTempUnitChange: () -> Unit = {}
 
     init {
         // Collect location updates from the ViewModel.
@@ -71,10 +71,6 @@ class LocationInfoManager(private val viewModel: LocationViewModel) {
     }
 
     // Event handlers
-    fun onTempUnitChange() {
-        _onTempUnitChange()
-    }
-
     fun onSearchCity(city: String) {
         _onSearchCity(city)
         gpsBool = false
@@ -89,10 +85,6 @@ class LocationInfoManager(private val viewModel: LocationViewModel) {
     fun setOnSearchCityListener(listener: (String) -> Unit) {
         _onSearchCity = listener
     }
-
-    fun setOnTempUnitChangeListener(listener: () -> Unit) {
-        _onTempUnitChange = listener
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,11 +97,11 @@ fun WeatherTopAppBar(
 ) {
     TopAppBar(
         title = {
-            Text(if (isGpsMode) "GPS Weather" else "City Search")
+            Text(if (isGpsMode) stringResource(id = R.string.gps_weather) else stringResource(id = R.string.city_search))
         },
         actions = {
             IconButton(onClick = onRefresh) {
-                Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
+                Icon(imageVector = Icons.Default.Refresh, contentDescription = stringResource(id = R.string.app_name))
             }
             IconButton(onClick = { onModeChange(!isGpsMode) }) {
                 Icon(
@@ -118,19 +110,17 @@ fun WeatherTopAppBar(
                 )
             }
             IconButton(onClick = onNavigateToSettings) {
-                Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
+                Icon(imageVector = Icons.Default.Settings, contentDescription = stringResource(id = R.string.settings))
             }
         }
     )
 }
 
-// UI for entering location information and selecting temperature units.
+// UI for entering location information.
 @Composable
 fun LocationInfoUI(
     cityName: String,
     onCityNameChange: (String) -> Unit,
-    tempUnit: String,
-    onTempUnitChange: () -> Unit,
     onSearchCity: (String) -> Unit,
     onUseGpsLocation: () -> Unit,
     gpsBool: Boolean,
@@ -163,7 +153,7 @@ fun LocationInfoUI(
                 TextField(
                     value = cityName,
                     onValueChange = onCityNameChange,
-                    label = { Text("Enter city name") },
+                    label = { Text(stringResource(id = R.string.enter_city)) },
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = {
                         onSearchCity(cityName.trim())
@@ -209,8 +199,8 @@ fun LocationContent(
                 if (locationState != null) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = String.format(Locale.ROOT, "Location: %.4f, %.4f", locationState.latitude, locationState.longitude),
-                            modifier = Modifier.padding(10.dp)
+                            text = stringResource(id = R.string.location_coords, locationState.latitude, locationState.longitude),
+                            modifier = Modifier.padding(5.dp)
                         )
                         WeatherView(
                             locationState.latitude.toFloat(),
@@ -234,18 +224,18 @@ fun LocationContent(
                     modifier = Modifier.padding(30.dp).fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "Location permissions not granted!")
+                    Text(text = stringResource(id = R.string.permissions_not_granted))
                     Button(
                         onClick = onRequestPermissions,
                         modifier = Modifier.padding(top = 8.dp)
                     ) {
-                        Text("Grant Permissions")
+                        Text(stringResource(id = R.string.grant_permissions))
                     }
                 }
             }
             null -> {
                 Box(modifier = Modifier.fillMaxWidth().padding(30.dp), contentAlignment = Alignment.Center) {
-                    Text(text = "Checking permissions...")
+                    Text(text = stringResource(id = R.string.checking_permissions))
                 }
             }
         }
@@ -259,7 +249,6 @@ fun LocationInfoScreen(
     viewModel: LocationViewModel,
     onRequestPermissions: () -> Unit,
     tempUnit: String,
-    onTempUnitChange: () -> Unit,
     forecastDays: Int,
     windUnit: String,
     precipUnit: String,
@@ -277,7 +266,6 @@ fun LocationInfoScreen(
         searchCity = city
         refreshTrigger++
     }
-    manager.setOnTempUnitChangeListener { onTempUnitChange() }
 
     LaunchedEffect(permissionsGranted) {
         if (permissionsGranted == false) {
@@ -288,8 +276,6 @@ fun LocationInfoScreen(
     LocationInfoUI(
         cityName = cityName,
         onCityNameChange = { cityName = it },
-        tempUnit = tempUnit,
-        onTempUnitChange = manager::onTempUnitChange,
         onSearchCity = manager::onSearchCity,
         onUseGpsLocation = manager::onUseGpsLocation,
         gpsBool = manager.gpsBool,

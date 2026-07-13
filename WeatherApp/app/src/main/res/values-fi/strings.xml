@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Sääsovellus</string>
+    <string name="feels_like">Tuntuu kuin %1$s</string>
+    <string name="wind">Tuuli</string>
+    <string name="humidity">Ilmankosteus</string>
+    <string name="uv_index">UV-indeksi</string>
+    <string name="precipitation">Sademäärä</string>
+    <string name="sunrise">Auringonnousu</string>
+    <string name="sunset">Auringonlasku</string>
+    <string name="gps_coords">GPS: %1$.4f, %2$.4f</string>
+    <string name="enter_city">Syötä kaupungin nimi</string>
+    <string name="using_gps">Käytetään nykyistä GPS-sijaintia</string>
+    <string name="location_not_found">Sijaintia ei löytynyt</string>
+    <string name="permissions_not_granted">Sijaintilupia ei ole myönnetty!</string>
+    <string name="grant_permissions">Myönnä luvat</string>
+    <string name="checking_permissions">Tarkistetaan lupia…</string>
+    <string name="location_coords">Sijainti: %1$.4f, %2$.4f</string>
+    <string name="failed_to_load">Säätietojen lataus epäonnistui.</string>
+    <string name="settings">Asetukset</string>
+    <string name="back">Takaisin</string>
+    <string name="appearance">Ulkoasu</string>
+    <string name="dark_mode">Tumma tila</string>
+    <string name="units">Yksiköt</string>
+    <string name="temp_fahrenheit">Lämpötila Fahrenheiteina</string>
+    <string name="wind_speed_unit">Tuulen nopeuden yksikkö</string>
+    <string name="precip_unit">Sademäärän yksikkö</string>
+    <string name="preferences">Mieltymykset</string>
+    <string name="forecast_days_label">Ennustepäivät: %1$d</string>
+    <string name="notifications">Sääilmoitukset</string>
+    <string name="account">Tili</string>
+    <string name="display_name">Näyttönimi</string>
+    <string name="enter_name">Syötä nimesi</string>
+    <string name="gps_weather">GPS-sää</string>
+    <string name="city_search">Kaupunki-haku</string>
+</resources>

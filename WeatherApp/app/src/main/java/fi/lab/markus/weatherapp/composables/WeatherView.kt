@@ -20,9 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import fi.lab.markus.weatherapp.R
 
 /**
  * Fetches weather data from the Open-Meteo API.
@@ -117,7 +119,7 @@ fun WeatherView(
             modifier = Modifier.fillMaxWidth().padding(30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Failed to load weather data.")
+            Text(stringResource(id = R.string.failed_to_load))
         }
     } else {
         WeatherViewContent(weatherResponse, tempUnit, windUnit, precipUnit)

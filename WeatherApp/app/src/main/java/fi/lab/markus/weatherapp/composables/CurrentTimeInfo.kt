@@ -19,11 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fi.lab.markus.weatherapp.R
-import java.util.Locale
 
 /**
  * Displays the current time information along with sunrise and sunset times, temperature, and
@@ -77,12 +77,12 @@ fun CurrentTimeInfo(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Top Section: GPS Coordinates & Condition Icon
         Text(
-            text = String.format(Locale.ROOT, "GPS: %.4f, %.4f", weatherResponse.latitude, weatherResponse.longitude),
+            text = stringResource(id = R.string.gps_coords, weatherResponse.latitude, weatherResponse.longitude),
             fontSize = 14.sp,
             color = Color.Gray,
             fontWeight = FontWeight.Medium
@@ -103,7 +103,7 @@ fun CurrentTimeInfo(
         )
         
         Text(
-            text = "Feels like $apparentTemp $userTemp",
+            text = stringResource(id = R.string.feels_like, "$apparentTemp $userTemp"),
             fontSize = 16.sp,
             color = Color.Gray
         )
@@ -119,17 +119,17 @@ fun CurrentTimeInfo(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                WeatherDetailItem(icon = windIcon, label = "Wind", value = "$currentWind $windLabel")
-                WeatherDetailItem(icon = airIcon, label = "Humidity", value = "$currentHumidity%")
-                WeatherDetailItem(icon = R.drawable.ic_launcher_foreground, label = "UV Index", value = "$uvIndex", isUv = true)
+                WeatherDetailItem(icon = windIcon, label = stringResource(id = R.string.wind), value = "$currentWind $windLabel")
+                WeatherDetailItem(icon = airIcon, label = stringResource(id = R.string.humidity), value = "$currentHumidity%")
+                WeatherDetailItem(icon = R.drawable.ic_launcher_foreground, label = stringResource(id = R.string.uv_index), value = "$uvIndex", isUv = true)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                WeatherDetailItem(icon = waterIcon, label = "Precipitation", value = "$currentPrecipSum $precipUnit")
-                WeatherDetailItem(icon = sunriseIcon, label = "Sunrise", value = sunrise)
-                WeatherDetailItem(icon = sunsetIcon, label = "Sunset", value = sunset)
+                WeatherDetailItem(icon = waterIcon, label = stringResource(id = R.string.precipitation), value = "$currentPrecipSum $precipUnit")
+                WeatherDetailItem(icon = sunriseIcon, label = stringResource(id = R.string.sunrise), value = sunrise)
+                WeatherDetailItem(icon = sunsetIcon, label = stringResource(id = R.string.sunset), value = sunset)
             }
         }
     }
