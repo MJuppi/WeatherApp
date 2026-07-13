@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,23 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import okhttp3.Cache
-import okhttp3.OkHttpClient
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
 
 /**
  * Fetches weather data from the Open-Meteo API.
- *
- * @param latitude The latitude coordinate of the location.
- * @param longitude The longitude coordinate of the location.
- * @param timezone The timezone of the location.
- * @param tempUnit The unit of temperature to use.
- * @param api The Retrofit service for making API calls.
- * @return The weather data response, or null if an error occurred.
  */
 @RequiresApi(Build.VERSION_CODES.O)
 suspend fun fetchWeatherData(
@@ -44,12 +33,22 @@ suspend fun fetchWeatherData(
     longitude: Float,
     timezone: String,
     tempUnit: String,
-    api: WeatherService
+    api: WeatherService,
+    forecastDays: Int,
+    windUnit: String,
+    precipUnit: String
 ): WeatherResponse? {
     return try {
-        api.getWeather(latitude, longitude, timezone = timezone, temperatureUnit = tempUnit)
+        api.getWeather(
+            latitude, 
+            longitude, 
+            timezone = timezone, 
+            temperatureUnit = tempUnit,
+            forecastDays = forecastDays,
+            windSpeedUnit = windUnit,
+            precipitationUnit = precipUnit
+        )
     } catch (e: Exception) {
-        // Handle network or API errors here, e.g., log the error
         println("Error fetching weather data: ${e.message}")
         null
     }
@@ -57,9 +56,6 @@ suspend fun fetchWeatherData(
 
 /**
  * Calculates and formats the current time based on the weather data.
- *
- * @param weatherResponse The weather data response.
- * @return A pair containing the formatted time string and the current hour.
  */
 @SuppressLint("DefaultLocale")
 @RequiresApi(Build.VERSION_CODES.O)
@@ -71,65 +67,74 @@ fun getCurrentTimeInfo(weatherResponse: WeatherResponse): Pair<String, Int> {
     return Pair(formattedTime, currentTime)
 }
 
-fun createOkHttpClient(cacheDir: File): OkHttpClient {
-    val cacheSize = 10 * 1024 * 1024 // 10 MiB
-    val cache = Cache(cacheDir, cacheSize.toLong())
-
-    return OkHttpClient.Builder()
-        .cache(cache)
-        .build()
-}
-
 /**
  * Renders the weather information UI.
- *
- * This function is a Composable that displays the weather information UI. It takes the latitude,
- * longitude, timezone, and temperature unit as parameters. It uses the Retrofit library to make a
- * network request to the Open-Meteo API to retrieve weather data. The weather data is stored in the
- * [WeatherResponse] variable, which is updated using the [LaunchedEffect] function. The UI is
- * composed using the Column composable, which displays the current time, current day information,
- * and weekly weather information. If the weather data is not available, it displays a loading
- * indicator.
- *
- * @param latitude The latitude coordinate of the location.
- * @param longitude The longitude coordinate of the location.
- * @param timezone The timezone of the location.
- * @param tempUnit The unit of temperature to use.
  */
 @SuppressLint("DefaultLocale")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun WeatherView(latitude: Float, longitude: Float, timezone: String, tempUnit: String) {
+fun WeatherView(
+    latitude: Float,
+    longitude: Float,
+    timezone: String,
+    tempUnit: String,
+    refreshTrigger: Int,
+    forecastDays: Int,
+    windUnit: String,
+    precipUnit: String
+) {
     val context = LocalContext.current
-    val cacheDir = context.cacheDir
-    val client = remember { createOkHttpClient(cacheDir) }
-
-    val api = remember {
-        Retrofit.Builder()
-            .baseUrl("https://api.open-meteo.com/v1/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create()).build()
-            .create(WeatherService::class.java)
-    }
     var weatherResponse by remember { mutableStateOf<WeatherResponse?>(null) }
+    var isLoading by remember { mutableStateOf(true) }
+    var isError by remember { mutableStateOf(false) }
 
-    // Wait for the API response
-    LaunchedEffect(key1 = api) {
-        weatherResponse = fetchWeatherData(latitude, longitude, timezone, tempUnit, api)
+    val api = remember { RetrofitClient.getService(context) }
+
+    // Only re-fetch if refreshTrigger, tempUnit, forecastDays or units changes.
+    LaunchedEffect(refreshTrigger, tempUnit, forecastDays, windUnit, precipUnit) {
+        isLoading = true
+        isError = false
+        val response = fetchWeatherData(
+            latitude, longitude, timezone, tempUnit, api, forecastDays, windUnit, precipUnit
+        )
+        if (response != null) {
+            weatherResponse = response
+        } else {
+            isError = true
+        }
+        isLoading = false
     }
 
-    WeatherViewContent(weatherResponse, tempUnit)
+    if (isLoading) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
+        }
+    } else if (isError) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Failed to load weather data.")
+        }
+    } else {
+        WeatherViewContent(weatherResponse, tempUnit, windUnit, precipUnit)
+    }
 }
 
 /**
  * Renders the content of the WeatherView based on the weather data.
- *
- * @param weatherResponse The weather data response.
- * @param tempUnit The unit of temperature to use.
  */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun WeatherViewContent(weatherResponse: WeatherResponse?, tempUnit: String) {
+fun WeatherViewContent(
+    weatherResponse: WeatherResponse?, 
+    tempUnit: String,
+    windUnit: String,
+    precipUnit: String
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
@@ -145,14 +150,26 @@ fun WeatherViewContent(weatherResponse: WeatherResponse?, tempUnit: String) {
                 weatherResponse = weatherResponse,
                 currentTime = currentTime,
                 userTemp = userTemp,
-                isNight = isNight
+                isNight = isNight,
+                windUnit = windUnit,
+                precipUnit = precipUnit
             )
             HorizontalDivider(color = Color.Gray, thickness = 1.dp)
             CurrentDayInfo(
-                currentTime = currentTime, weatherResponse = weatherResponse, userTemp = userTemp
+                currentTime = currentTime, 
+                weatherResponse = weatherResponse, 
+                userTemp = userTemp,
+                windUnit = windUnit,
+                precipUnit = precipUnit
             )
             HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-            WeekInfoScreen(weatherResponse = weatherResponse, tempUnit = tempUnit, userTemp = userTemp)
+            WeekInfoScreen(
+                weatherResponse = weatherResponse,
+                tempUnit = tempUnit,
+                userTemp = userTemp,
+                windUnit = windUnit,
+                precipUnit = precipUnit
+            )
         } else {
             Column(modifier = Modifier.padding(30.dp)) { CircularProgressIndicator() }
         }

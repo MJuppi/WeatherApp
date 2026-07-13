@@ -37,46 +37,69 @@ import retrofit2.converter.gson.GsonConverterFactory
  *
  * @param cityName The name of the city to retrieve the location information for.
  * @param tempUnit The unit of temperature to display in the weather view.
+ * @param refreshTrigger A trigger to refresh the weather data.
+ * @param forecastDays The number of days to forecast.
+ * @param windUnit The unit of wind speed to display.
+ * @param precipUnit The unit of precipitation to display.
  * @return The rendered location view UI.
  */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun LocationView(cityName: String, tempUnit: String) {
+fun LocationView(
+    cityName: String,
+    tempUnit: String,
+    refreshTrigger: Int,
+    forecastDays: Int,
+    windUnit: String,
+    precipUnit: String
+) {
     val api = remember {
         Retrofit.Builder().baseUrl("https://geocoding-api.open-meteo.com/v1/")
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(LocationService::class.java)
     }
-    var locationResponse by remember { mutableStateOf<LocationResponse?>(null) }
+    var locationResponse by remember(cityName) { mutableStateOf<LocationResponse?>(null) }
+    
     // Wait for the API response
-    LaunchedEffect(key1 = api) { locationResponse = api.getLocation(cityName) }
+    LaunchedEffect(cityName, refreshTrigger) { 
+        locationResponse = api.getLocation(cityName) 
+    }
+    
     // Display the location information
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (locationResponse != null) {
-            val city = locationResponse?.results?.get(0)?.name
-            val country = locationResponse?.results?.get(0)?.country
-            val timezone = locationResponse?.results?.get(0)?.timezone ?: "GMT"
+        val result = locationResponse?.results?.getOrNull(0)
+        if (result != null) {
+            val city = result.name
+            val country = result.country
+            val timezone = result.timezone ?: "GMT"
             val zoneId = ZoneId.of(timezone)
             val zonedDateTime = ZonedDateTime.now(zoneId)
             val formatter = DateTimeFormatter.ofPattern("HH:mm")
             val formattedTime = zonedDateTime.format(formatter)
-            if (city != null || country != null) {
-                Text(
-                    text = "$city, $country\nUsing local time: $formattedTime",
-                    modifier = Modifier.padding(10.dp),
-                    textAlign = TextAlign.Center
-                )
-                locationResponse?.results?.get(0)?.latitude?.let {
-                    locationResponse?.results?.get(0)?.longitude?.let { it1 ->
-                        WeatherView(latitude = it, longitude = it1, timezone, tempUnit)
-                    }
-                }
-            } else {
-                Column(modifier = Modifier.padding(30.dp)) { Text(text = "Location not found") }
+            
+            Text(
+                text = "$city, $country\nUsing local time: $formattedTime",
+                modifier = Modifier.padding(10.dp),
+                textAlign = TextAlign.Center
+            )
+            
+            WeatherView(
+                latitude = result.latitude, 
+                longitude = result.longitude, 
+                timezone = timezone, 
+                tempUnit = tempUnit,
+                refreshTrigger = refreshTrigger,
+                forecastDays = forecastDays,
+                windUnit = windUnit,
+                precipUnit = precipUnit
+            )
+        } else if (locationResponse != null) {
+            Column(modifier = Modifier.padding(30.dp)) { 
+                Text(text = "Location not found", textAlign = TextAlign.Center)
             }
         } else {
             Column(modifier = Modifier.padding(30.dp)) { CircularProgressIndicator() }

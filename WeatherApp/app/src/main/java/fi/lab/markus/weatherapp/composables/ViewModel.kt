@@ -12,6 +12,16 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     private val _location = MutableStateFlow<Location?>(null)
     val location: StateFlow<Location?> = _location.asStateFlow()
 
+    private val _permissionsGranted = MutableStateFlow<Boolean?>(null)
+    val permissionsGranted: StateFlow<Boolean?> = _permissionsGranted.asStateFlow()
+
+    fun setPermissionsGranted(granted: Boolean) {
+        _permissionsGranted.value = granted
+        if (granted) {
+            startLocationUpdates()
+        }
+    }
+
     /**
      * Starts location updates by calling the startLocationUpdates function from the
      * locationRepository.
