@@ -198,10 +198,6 @@ fun LocationContent(
             true -> {
                 if (locationState != null) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = stringResource(id = R.string.location_coords, locationState.latitude, locationState.longitude),
-                            modifier = Modifier.padding(5.dp)
-                        )
                         WeatherView(
                             locationState.latitude.toFloat(),
                             locationState.longitude.toFloat(),

@@ -80,16 +80,7 @@ fun CurrentTimeInfo(
             .padding(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Top Section: GPS Coordinates & Condition Icon
-        Text(
-            text = stringResource(id = R.string.gps_coords, weatherResponse.latitude, weatherResponse.longitude),
-            fontSize = 14.sp,
-            color = Color.Gray,
-            fontWeight = FontWeight.Medium
-        )
-        
-        Spacer(modifier = Modifier.height(8.dp))
-        
+
         WeatherCode(weatherCode, 120F, isNight)
         
         Spacer(modifier = Modifier.height(8.dp))
