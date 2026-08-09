@@ -32,4 +32,12 @@
     <string name="enter_name">Syötä nimesi</string>
     <string name="gps_weather">GPS-sää</string>
     <string name="city_search">Kaupunki-haku</string>
+    <string name="language">Kieli</string>
+    <string name="lang_en">Englanti</string>
+    <string name="lang_fi">Suomi</string>
+    <string name="lang_sv">Ruotsi</string>
+    <string name="lang_de">Saksa</string>
+    <string name="lang_fr">Ranska</string>
+    <string name="uv_label">UV</string>
+    <string name="switch_mode">Vaihda tilaa</string>
 </resources>

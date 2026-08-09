@@ -135,7 +135,7 @@ fun WeatherDetailItem(icon: Int, label: String, value: String, isUv: Boolean = f
         if (isUv) {
             // UV doesn't have a specific icon in resources, maybe use text or a generic one
             Box(modifier = Modifier.size(32.dp), contentAlignment = Alignment.Center) {
-                Text("UV", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                Text(stringResource(id = R.string.uv_label), fontWeight = FontWeight.Bold, fontSize = 12.sp)
             }
         } else {
             Image(

@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fi.lab.markus.weatherapp.R
 import kotlin.math.roundToInt
@@ -49,7 +50,9 @@ fun SettingsScreen(
     windUnit: String,
     onWindUnitChange: (String) -> Unit,
     precipUnit: String,
-    onPrecipUnitChange: (String) -> Unit
+    onPrecipUnitChange: (String) -> Unit,
+    currentLanguage: String,
+    onLanguageChange: (String) -> Unit
 ) {
     // Local state for demonstration purposes
     var notificationsEnabled by remember { mutableStateOf(true) }
@@ -159,6 +162,31 @@ fun SettingsScreen(
                 onCheckedChange = { notificationsEnabled = it }
             )
 
+            Column(modifier = Modifier.padding(vertical = 8.dp)) {
+                Text(text = stringResource(id = R.string.language), style = MaterialTheme.typography.bodyLarge)
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    listOf("en", "fi", "sv", "de", "fr").forEach { lang ->
+                        FilterChip(
+                            selected = currentLanguage == lang,
+                            onClick = { onLanguageChange(lang) },
+                            label = { 
+                                Text(when(lang) {
+                                    "en" -> stringResource(id = R.string.lang_en)
+                                    "fi" -> stringResource(id = R.string.lang_fi)
+                                    "sv" -> stringResource(id = R.string.lang_sv)
+                                    "de" -> stringResource(id = R.string.lang_de)
+                                    "fr" -> stringResource(id = R.string.lang_fr)
+                                    else -> lang
+                                }) 
+                            }
+                        )
+                    }
+                }
+            }
+
             SettingsDivider()
 
             // User Section
@@ -173,6 +201,28 @@ fun SettingsScreen(
             
             Spacer(modifier = Modifier.padding(bottom = 32.dp))
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SettingsScreenPreview() {
+    MaterialTheme {
+        SettingsScreen(
+            onBack = {},
+            tempUnit = "celsius",
+            onTempUnitToggle = {},
+            isDarkTheme = false,
+            onThemeToggle = {},
+            forecastDays = 7,
+            onForecastDaysChange = {},
+            windUnit = "kmh",
+            onWindUnitChange = {},
+            precipUnit = "mm",
+            onPrecipUnitChange = {},
+            currentLanguage = "sv",
+            onLanguageChange = {}
+        )
     }
 }
 

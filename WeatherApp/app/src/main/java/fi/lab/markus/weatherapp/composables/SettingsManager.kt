@@ -19,6 +19,7 @@ class SettingsManager(private val context: Context) {
         val WIND_UNIT = stringPreferencesKey("wind_unit")
         val PRECIP_UNIT = stringPreferencesKey("precip_unit")
         val FORECAST_DAYS = intPreferencesKey("forecast_days")
+        val LANGUAGE = stringPreferencesKey("language")
     }
 
     val tempUnitFlow: Flow<String> = context.dataStore.data.map { preferences ->
@@ -35,6 +36,10 @@ class SettingsManager(private val context: Context) {
 
     val forecastDaysFlow: Flow<Int> = context.dataStore.data.map { preferences ->
         preferences[FORECAST_DAYS] ?: 7
+    }
+
+    val languageFlow: Flow<String> = context.dataStore.data.map { preferences ->
+        preferences[LANGUAGE] ?: "en"
     }
 
     suspend fun saveTempUnit(unit: String) {
@@ -58,6 +63,12 @@ class SettingsManager(private val context: Context) {
     suspend fun saveForecastDays(days: Int) {
         context.dataStore.edit { preferences ->
             preferences[FORECAST_DAYS] = days
+        }
+    }
+
+    suspend fun saveLanguage(lang: String) {
+        context.dataStore.edit { preferences ->
+            preferences[LANGUAGE] = lang
         }
     }
 }

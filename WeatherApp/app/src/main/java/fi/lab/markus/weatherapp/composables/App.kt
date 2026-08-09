@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -39,6 +41,7 @@ fun App(
     val forecastDays by settingsManager.forecastDaysFlow.collectAsState(initial = 7)
     val windUnit by settingsManager.windUnitFlow.collectAsState(initial = "kmh")
     val precipUnit by settingsManager.precipUnitFlow.collectAsState(initial = "mm")
+    val currentLanguage by settingsManager.languageFlow.collectAsState(initial = "en")
 
     val permissionLauncher =
         rememberLauncherForActivityResult(
@@ -111,6 +114,14 @@ fun App(
                 precipUnit = precipUnit,
                 onPrecipUnitChange = {
                     scope.launch { settingsManager.savePrecipUnit(it) }
+                },
+                currentLanguage = currentLanguage,
+                onLanguageChange = { lang ->
+                    scope.launch {
+                        settingsManager.saveLanguage(lang)
+                        val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang)
+                        AppCompatDelegate.setApplicationLocales(appLocale)
+                    }
                 }
             )
         }

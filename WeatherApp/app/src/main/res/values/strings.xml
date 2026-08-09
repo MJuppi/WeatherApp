@@ -32,4 +32,12 @@
     <string name="enter_name">Enter your name</string>
     <string name="gps_weather">GPS Weather</string>
     <string name="city_search">City Search</string>
+    <string name="language">Language</string>
+    <string name="lang_en">English</string>
+    <string name="lang_fi">Finnish</string>
+    <string name="lang_sv">Swedish</string>
+    <string name="lang_de">German</string>
+    <string name="lang_fr">French</string>
+    <string name="uv_label">UV</string>
+    <string name="switch_mode">Switch Mode</string>
 </resources>

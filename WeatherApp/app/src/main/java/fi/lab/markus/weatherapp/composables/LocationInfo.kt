@@ -106,7 +106,7 @@ fun WeatherTopAppBar(
             IconButton(onClick = { onModeChange(!isGpsMode) }) {
                 Icon(
                     imageVector = if (isGpsMode) Icons.Default.Search else Icons.Default.LocationOn,
-                    contentDescription = "Switch Mode"
+                    contentDescription = stringResource(id = R.string.switch_mode)
                 )
             }
             IconButton(onClick = onNavigateToSettings) {
