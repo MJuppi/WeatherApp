@@ -118,7 +118,7 @@ fun WeekInfoUI(
     val isDark = isSystemInDarkTheme()
     val sunriseIcon = if (isDark) R.drawable.inverse_sunrise else R.drawable.sunrise
     val sunsetIcon = if (isDark) R.drawable.inverse_sunset else R.drawable.sunset
-    val waterIcon = if (isDark) R.drawable.inverse_water else R.drawable.water
+    val waterIcon = if (isDark) R.drawable.inverse_water_drop else R.drawable.water_drop
 
     Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
         dailyData.forEach { data ->

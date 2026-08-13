@@ -71,8 +71,8 @@ fun CurrentTimeInfo(
     val sunriseIcon = if (isDark) R.drawable.inverse_sunrise else R.drawable.sunrise
     val sunsetIcon = if (isDark) R.drawable.inverse_sunset else R.drawable.sunset
     val windIcon = if (isDark) R.drawable.inverse_wind else R.drawable.wind
-    val waterIcon = if (isDark) R.drawable.inverse_water else R.drawable.water
-    val airIcon = if (isDark) R.drawable.inverse_air else R.drawable.air
+    val waterIcon = if (isDark) R.drawable.inverse_water_drop else R.drawable.water_drop
+    val humidityIcon = if (isDark) R.drawable.inverse_humidity else R.drawable.humidity
 
     Column(
         modifier = Modifier
@@ -111,7 +111,7 @@ fun CurrentTimeInfo(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 WeatherDetailItem(icon = windIcon, label = stringResource(id = R.string.wind), value = "$currentWind $windLabel")
-                WeatherDetailItem(icon = airIcon, label = stringResource(id = R.string.humidity), value = "$currentHumidity%")
+                WeatherDetailItem(icon = humidityIcon, label = stringResource(id = R.string.humidity), value = "$currentHumidity%")
                 WeatherDetailItem(icon = R.drawable.ic_launcher_foreground, label = stringResource(id = R.string.uv_index), value = "$uvIndex", isUv = true)
             }
             Row(

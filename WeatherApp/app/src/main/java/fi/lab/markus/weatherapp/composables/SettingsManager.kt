@@ -20,6 +20,7 @@ class SettingsManager(private val context: Context) {
         val PRECIP_UNIT = stringPreferencesKey("precip_unit")
         val FORECAST_DAYS = intPreferencesKey("forecast_days")
         val LANGUAGE = stringPreferencesKey("language")
+        val NOTIFICATIONS_ENABLED = androidx.datastore.preferences.core.booleanPreferencesKey("notifications_enabled")
     }
 
     val tempUnitFlow: Flow<String> = context.dataStore.data.map { preferences ->
@@ -40,6 +41,10 @@ class SettingsManager(private val context: Context) {
 
     val languageFlow: Flow<String> = context.dataStore.data.map { preferences ->
         preferences[LANGUAGE] ?: "en"
+    }
+
+    val notificationsEnabledFlow: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[NOTIFICATIONS_ENABLED] ?: true
     }
 
     suspend fun saveTempUnit(unit: String) {
@@ -69,6 +74,12 @@ class SettingsManager(private val context: Context) {
     suspend fun saveLanguage(lang: String) {
         context.dataStore.edit { preferences ->
             preferences[LANGUAGE] = lang
+        }
+    }
+
+    suspend fun saveNotificationsEnabled(enabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[NOTIFICATIONS_ENABLED] = enabled
         }
     }
 }

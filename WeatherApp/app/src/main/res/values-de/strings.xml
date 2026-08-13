@@ -40,4 +40,12 @@
     <string name="lang_fr">Französisch</string>
     <string name="uv_label">UV</string>
     <string name="switch_mode">Modus wechseln</string>
+    <string name="weather_alert_channel_name">Wetterwarnungen</string>
+    <string name="weather_alert_channel_description">Benachrichtigungen bei schweren Wetterbedingungen</string>
+    <string name="severe_weather_alert">Schwere Wetterwarnung</string>
+    <string name="heavy_rain_warning">In etwa 1 Stunde wird starker Regen erwartet. Suchen Sie Schutz!</string>
+    <string name="heavy_snow_warning">In etwa 1 Stunde wird starker Schneefall erwartet. Seien Sie vorsichtig!</string>
+    <string name="thunderstorm_warning">In etwa 1 Stunde wird ein Gewitter erwartet. Bleiben Sie im Haus!</string>
+    <string name="rough_weather_warning">In etwa 1 Stunde wird schlechtes Wetter erwartet.</string>
+    <string name="notification_permission_rationale">Bitte aktivieren Sie Benachrichtigungen, um Wetterwarnungen zu erhalten.</string>
 </resources>

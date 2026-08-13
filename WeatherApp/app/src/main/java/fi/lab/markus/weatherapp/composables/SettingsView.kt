@@ -52,10 +52,11 @@ fun SettingsScreen(
     precipUnit: String,
     onPrecipUnitChange: (String) -> Unit,
     currentLanguage: String,
-    onLanguageChange: (String) -> Unit
+    onLanguageChange: (String) -> Unit,
+    notificationsEnabled: Boolean,
+    onNotificationsEnabledChange: (Boolean) -> Unit
 ) {
     // Local state for demonstration purposes
-    var notificationsEnabled by remember { mutableStateOf(true) }
     var userName by remember { mutableStateOf("") }
     
     val scrollState = rememberScrollState()
@@ -159,7 +160,7 @@ fun SettingsScreen(
             SettingRow(
                 label = stringResource(id = R.string.notifications),
                 checked = notificationsEnabled,
-                onCheckedChange = { notificationsEnabled = it }
+                onCheckedChange = onNotificationsEnabledChange
             )
 
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
@@ -221,7 +222,9 @@ fun SettingsScreenPreview() {
             precipUnit = "mm",
             onPrecipUnitChange = {},
             currentLanguage = "sv",
-            onLanguageChange = {}
+            onLanguageChange = {},
+            notificationsEnabled = true,
+            onNotificationsEnabledChange = {}
         )
     }
 }

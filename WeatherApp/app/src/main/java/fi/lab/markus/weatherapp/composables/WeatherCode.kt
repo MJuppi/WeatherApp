@@ -61,50 +61,70 @@ fun getWeatherIconState(code: Int, isDarkTheme: Boolean, isNight: Boolean): Weat
             isNight -> R.drawable.night_mist
             else -> R.drawable.day_mist
         }
-        // Drizzle: Light, moderate, and dense intensity
-        51, 53, 55 -> when {
-            isDarkTheme && isNight -> R.drawable.inverse_night_rain
-            isDarkTheme -> R.drawable.inverse_day_rain
-            isNight -> R.drawable.night_rain
-            else -> R.drawable.day_rain
+        // Drizzle: Light intensity
+        51, 56 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_drizzle_light
+            isDarkTheme -> R.drawable.inverse_day_drizzle_light
+            isNight -> R.drawable.night_drizzle_light
+            else -> R.drawable.day_drizzle_light
         }
-        // Freezing Drizzle: Light and dense intensity
-        56, 57 -> when {
-            isDarkTheme && isNight -> R.drawable.inverse_night_shower_rain
-            isDarkTheme -> R.drawable.inverse_day_shower_rain
-            isNight -> R.drawable.night_shower_rain
-            else -> R.drawable.day_shower_rain
+        // Drizzle: Moderate intensity
+        53, 57 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_drizzle_moderate
+            isDarkTheme -> R.drawable.inverse_day_drizzle_moderate
+            isNight -> R.drawable.night_drizzle_moderate
+            else -> R.drawable.day_drizzle_moderate
         }
-        // Rain: Slight, moderate and heavy intensity + Freezing Rain: Light and heavy
-        // intensity
-        61, 63, 65, 66, 67 -> when {
-            isDarkTheme && isNight -> R.drawable.inverse_night_shower_rain
-            isDarkTheme -> R.drawable.inverse_day_shower_rain
-            isNight -> R.drawable.night_shower_rain
-            else -> R.drawable.day_shower_rain
+        // Drizzle: Dense intensity
+        55 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_drizzle_heavy
+            isDarkTheme -> R.drawable.inverse_day_drizzle_heavy
+            isNight -> R.drawable.night_drizzle_heavy
+            else -> R.drawable.day_drizzle_heavy
         }
-        // Snow fall: Slight, moderate, and heavy intensity + Snow grains
-        71, 73, 75, 77 -> when {
-            isDarkTheme && isNight -> R.drawable.inverse_night_snow
-            isDarkTheme -> R.drawable.inverse_day_snow
-            isNight -> R.drawable.night_snow
-            else -> R.drawable.day_snow
+        // Rain: Slight intensity
+        61, 66, 80 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_rain_light
+            isDarkTheme -> R.drawable.inverse_day_rain_light
+            isNight -> R.drawable.night_rain_light
+            else -> R.drawable.day_rain_light
         }
-        // Rain showers: Slight, moderate, and violent
-        80, 81, 82 -> when {
-            isDarkTheme && isNight -> R.drawable.inverse_night_shower_rain
-            isDarkTheme -> R.drawable.inverse_day_shower_rain
-            isNight -> R.drawable.night_shower_rain
-            else -> R.drawable.day_shower_rain
+        // Rain: Moderate intensity
+        63, 81 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_rain_moderate
+            isDarkTheme -> R.drawable.inverse_day_rain_moderate
+            isNight -> R.drawable.night_rain_moderate
+            else -> R.drawable.day_rain_moderate
         }
-        // Snow showers slight and heavy
-        85, 86 -> when {
-            isDarkTheme && isNight -> R.drawable.inverse_night_snow
-            isDarkTheme -> R.drawable.inverse_day_snow
-            isNight -> R.drawable.night_snow
-            else -> R.drawable.day_snow
+        // Rain: Heavy/Violent intensity
+        65, 67, 82 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_rain_heavy
+            isDarkTheme -> R.drawable.inverse_day_rain_heavy
+            isNight -> R.drawable.night_rain_heavy
+            else -> R.drawable.day_rain_heavy
         }
-        // Thunderstorm: Slight or moderate + Thunderstorm with slight and heavy hail
+        // Snow fall: Slight intensity
+        71, 77, 85 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_snow_light
+            isDarkTheme -> R.drawable.inverse_day_snow_light
+            isNight -> R.drawable.night_snow_light
+            else -> R.drawable.day_snow_light
+        }
+        // Snow fall: Moderate intensity
+        73 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_snow_moderate
+            isDarkTheme -> R.drawable.inverse_day_snow_moderate
+            isNight -> R.drawable.night_snow_moderate
+            else -> R.drawable.day_snow_moderate
+        }
+        // Snow fall: Heavy intensity
+        75, 86 -> when {
+            isDarkTheme && isNight -> R.drawable.inverse_night_snow_heavy
+            isDarkTheme -> R.drawable.inverse_day_snow_heavy
+            isNight -> R.drawable.night_snow_heavy
+            else -> R.drawable.day_snow_heavy
+        }
+        // Thunderstorm
         95, 96, 99 -> when {
             isDarkTheme && isNight -> R.drawable.inverse_night_thunderstorm
             isDarkTheme -> R.drawable.inverse_day_thunderstorm

@@ -40,4 +40,12 @@
     <string name="lang_fr">Français</string>
     <string name="uv_label">UV</string>
     <string name="switch_mode">Changer de mode</string>
+    <string name="weather_alert_channel_name">Alertes météo</string>
+    <string name="weather_alert_channel_description">Notifications pour des conditions météo graves</string>
+    <string name="severe_weather_alert">Alerte météo grave</string>
+    <string name="heavy_rain_warning">Pluie forte prévue dans environ 1 heure. Mettez-vous à l\'abri !</string>
+    <string name="heavy_snow_warning">Neige forte prévue dans environ 1 heure. Soyez prudent !</string>
+    <string name="thunderstorm_warning">Orage prévu dans environ 1 heure. Restez à l\'intérieur !</string>
+    <string name="rough_weather_warning">Temps difficile prévu dans environ 1 heure.</string>
+    <string name="notification_permission_rationale">Veuillez activer les notifications pour recevoir des alertes météo.</string>
 </resources>

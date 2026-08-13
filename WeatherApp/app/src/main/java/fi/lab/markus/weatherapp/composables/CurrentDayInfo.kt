@@ -45,6 +45,10 @@ fun CurrentDayInfo(
         else -> windUnit
     }
 
+    val isDark = androidx.compose.foundation.isSystemInDarkTheme()
+    val windIcon = if (isDark) R.drawable.inverse_wind else R.drawable.wind
+    val waterIcon = if (isDark) R.drawable.inverse_water_drop else R.drawable.water_drop
+
     // Creates a LazyRow that takes up the full width of its parent
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
@@ -83,7 +87,7 @@ fun CurrentDayInfo(
                     // Wind info
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = painterResource(id = R.drawable.wind),
+                            painter = painterResource(id = windIcon),
                             contentDescription = null,
                             modifier = Modifier.size(12.dp)
                         )
@@ -94,7 +98,7 @@ fun CurrentDayInfo(
                     // Precip info
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = painterResource(id = R.drawable.water),
+                            painter = painterResource(id = waterIcon),
                             contentDescription = null,
                             modifier = Modifier.size(12.dp)
                         )

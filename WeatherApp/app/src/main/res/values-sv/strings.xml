@@ -40,4 +40,12 @@
     <string name="lang_fr">Franska</string>
     <string name="uv_label">UV</string>
     <string name="switch_mode">Byt läge</string>
+    <string name="weather_alert_channel_name">Vädermeddelanden</string>
+    <string name="weather_alert_channel_description">Meddelanden om svåra väderförhållanden</string>
+    <string name="severe_weather_alert">Allvarlig vädervarning</string>
+    <string name="heavy_rain_warning">Kraftigt regn väntas om cirka 1 timme. Sök skydd!</string>
+    <string name="heavy_snow_warning">Kraftigt snöfall väntas om cirka 1 timme. Var försiktig!</string>
+    <string name="thunderstorm_warning">Åska väntas om cirka 1 timme. Stanna inomhus!</string>
+    <string name="rough_weather_warning">Dåligt väder väntas om cirka 1 timme.</string>
+    <string name="notification_permission_rationale">Aktivera aviseringar för att ta emot vädervarningar.</string>
 </resources>

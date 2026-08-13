@@ -42,6 +42,16 @@ fun App(
     val windUnit by settingsManager.windUnitFlow.collectAsState(initial = "kmh")
     val precipUnit by settingsManager.precipUnitFlow.collectAsState(initial = "mm")
     val currentLanguage by settingsManager.languageFlow.collectAsState(initial = "en")
+    val notificationsEnabled by settingsManager.notificationsEnabledFlow.collectAsState(initial = true)
+
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            if (isGranted) {
+                scope.launch { settingsManager.saveNotificationsEnabled(true) }
+            }
+        }
+    )
 
     val permissionLauncher =
         rememberLauncherForActivityResult(
@@ -121,6 +131,26 @@ fun App(
                         settingsManager.saveLanguage(lang)
                         val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(lang)
                         AppCompatDelegate.setApplicationLocales(appLocale)
+                    }
+                },
+                notificationsEnabled = notificationsEnabled,
+                onNotificationsEnabledChange = { enabled ->
+                    if (enabled) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            val hasPermission = ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            ) == PackageManager.PERMISSION_GRANTED
+                            if (!hasPermission) {
+                                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                            } else {
+                                scope.launch { settingsManager.saveNotificationsEnabled(true) }
+                            }
+                        } else {
+                            scope.launch { settingsManager.saveNotificationsEnabled(true) }
+                        }
+                    } else {
+                        scope.launch { settingsManager.saveNotificationsEnabled(false) }
                     }
                 }
             )
