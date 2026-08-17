@@ -46,8 +46,8 @@ fun CurrentDayInfo(
     }
 
     val isDark = androidx.compose.foundation.isSystemInDarkTheme()
-    val windIcon = if (isDark) R.drawable.inverse_wind else R.drawable.wind
-    val waterIcon = if (isDark) R.drawable.inverse_water_drop else R.drawable.water_drop
+    val windIcon = if (isDark) R.drawable.ic_inverse_wind else R.drawable.ic_wind
+    val waterIcon = if (isDark) R.drawable.ic_inverse_droplet else R.drawable.ic_droplet
 
     // Creates a LazyRow that takes up the full width of its parent
     LazyRow(

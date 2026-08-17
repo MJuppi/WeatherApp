@@ -98,9 +98,9 @@ fun DayInfoUI(
     }
 
     val isDark = androidx.compose.foundation.isSystemInDarkTheme()
-    val windIcon = if (isDark) R.drawable.inverse_wind else R.drawable.wind
-    val waterIcon = if (isDark) R.drawable.inverse_water_drop else R.drawable.water_drop
-    val humidityIcon = if (isDark) R.drawable.inverse_humidity else R.drawable.humidity
+    val windIcon = if (isDark) R.drawable.ic_inverse_wind else R.drawable.ic_wind
+    val rainIcon = if (isDark) R.drawable.ic_inverse_umbrella else R.drawable.ic_umbrella
+    val humidityIcon = if (isDark) R.drawable.ic_inverse_droplet else R.drawable.ic_droplet
 
     LazyRow(modifier = Modifier.fillMaxWidth()) {
         items(hourlyData, key = { it.hour }) { data ->
@@ -127,7 +127,7 @@ fun DayInfoUI(
                 // Precipitation
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
-                        painter = painterResource(id = waterIcon),
+                        painter = painterResource(id = rainIcon),
                         contentDescription = null,
                         modifier = Modifier.size(12.dp)
                     )

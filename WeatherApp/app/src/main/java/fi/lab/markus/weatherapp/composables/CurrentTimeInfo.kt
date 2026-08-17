@@ -68,11 +68,13 @@ fun CurrentTimeInfo(
     }
 
     val isDark = isSystemInDarkTheme()
-    val sunriseIcon = if (isDark) R.drawable.inverse_sunrise else R.drawable.sunrise
-    val sunsetIcon = if (isDark) R.drawable.inverse_sunset else R.drawable.sunset
-    val windIcon = if (isDark) R.drawable.inverse_wind else R.drawable.wind
-    val waterIcon = if (isDark) R.drawable.inverse_water_drop else R.drawable.water_drop
-    val humidityIcon = if (isDark) R.drawable.inverse_humidity else R.drawable.humidity
+    
+    val sunriseIcon = if (isDark) R.drawable.ic_inverse_sunrise else R.drawable.ic_sunrise
+    val sunsetIcon = if (isDark) R.drawable.ic_inverse_sunset else R.drawable.ic_sunset
+    val windIcon = if (isDark) R.drawable.ic_inverse_wind else R.drawable.ic_wind
+    val humidityIcon = if (isDark) R.drawable.ic_inverse_droplet else R.drawable.ic_droplet
+    val precipitationIcon = if (isDark) R.drawable.ic_inverse_umbrella else R.drawable.ic_umbrella
+    val ultraVioletIcon = if (isDark) R.drawable.ic_inverse_sun else R.drawable.ic_sun
 
     Column(
         modifier = Modifier
@@ -112,13 +114,13 @@ fun CurrentTimeInfo(
             ) {
                 WeatherDetailItem(icon = windIcon, label = stringResource(id = R.string.wind), value = "$currentWind $windLabel")
                 WeatherDetailItem(icon = humidityIcon, label = stringResource(id = R.string.humidity), value = "$currentHumidity%")
-                WeatherDetailItem(icon = R.drawable.ic_launcher_foreground, label = stringResource(id = R.string.uv_index), value = "$uvIndex", isUv = true)
+                WeatherDetailItem(icon = ultraVioletIcon, label = stringResource(id = R.string.uv_index), value = "$uvIndex", isUv = true)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                WeatherDetailItem(icon = waterIcon, label = stringResource(id = R.string.precipitation), value = "$currentPrecipSum $precipUnit")
+                WeatherDetailItem(icon = precipitationIcon, label = stringResource(id = R.string.precipitation), value = "$currentPrecipSum $precipUnit")
                 WeatherDetailItem(icon = sunriseIcon, label = stringResource(id = R.string.sunrise), value = sunrise)
                 WeatherDetailItem(icon = sunsetIcon, label = stringResource(id = R.string.sunset), value = sunset)
             }
@@ -132,18 +134,11 @@ fun WeatherDetailItem(icon: Int, label: String, value: String, isUv: Boolean = f
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(100.dp)
     ) {
-        if (isUv) {
-            // UV doesn't have a specific icon in resources, maybe use text or a generic one
-            Box(modifier = Modifier.size(32.dp), contentAlignment = Alignment.Center) {
-                Text(stringResource(id = R.string.uv_label), fontWeight = FontWeight.Bold, fontSize = 12.sp)
-            }
-        } else {
-            Image(
-                painter = painterResource(id = icon),
-                contentDescription = null,
-                modifier = Modifier.size(32.dp)
-            )
-        }
+        Image(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            modifier = Modifier.size(32.dp)
+        )
         Text(text = label, fontSize = 12.sp, color = Color.Gray)
         Text(text = value, fontSize = 14.sp, fontWeight = FontWeight.Medium)
     }

@@ -116,9 +116,9 @@ fun WeekInfoUI(
     onDayInfoScreen: @Composable (Int) -> Unit
 ) {
     val isDark = isSystemInDarkTheme()
-    val sunriseIcon = if (isDark) R.drawable.inverse_sunrise else R.drawable.sunrise
-    val sunsetIcon = if (isDark) R.drawable.inverse_sunset else R.drawable.sunset
-    val waterIcon = if (isDark) R.drawable.inverse_water_drop else R.drawable.water_drop
+    val sunriseIcon = if (isDark) R.drawable.ic_inverse_sunrise else R.drawable.ic_sunrise
+    val sunsetIcon = if (isDark) R.drawable.ic_inverse_sunset else R.drawable.ic_sunset
+    val rainIcon = if (isDark) R.drawable.ic_inverse_umbrella else R.drawable.ic_umbrella
 
     Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
         dailyData.forEach { data ->
@@ -188,16 +188,17 @@ fun WeekInfoUI(
                         horizontalArrangement = Arrangement.End
                     ) {
                         Image(
-                            painter = painterResource(id = waterIcon),
+                            painter = painterResource(id = rainIcon),
                             contentDescription = null,
                             modifier = Modifier.size(16.dp)
                         )
-                        Spacer(modifier = Modifier.width(2.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = "${data.precipSum} $precipUnit",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Light
                         )
+                        Spacer(modifier = Modifier.width(6.dp))
                     }
                     
                     // Sunrise/Sunset & Chevron
@@ -209,22 +210,24 @@ fun WeekInfoUI(
                         Image(
                             painter = painterResource(id = sunriseIcon),
                             contentDescription = null,
-                            modifier = Modifier.height(24.dp)
+                            modifier = Modifier.height(16.dp)
                         )
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(text = data.sunrise, fontSize = 10.sp)
-                        Spacer(modifier = Modifier.width(4.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
                         Image(
                             painter = painterResource(id = sunsetIcon),
                             contentDescription = null,
-                            modifier = Modifier.height(24.dp)
+                            modifier = Modifier.height(16.dp)
                         )
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(text = data.sunset, fontSize = 10.sp)
                         
                         Icon(
                             imageVector = if (isSelected) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowRight,
                             contentDescription = null,
                             tint = Color.Gray.copy(alpha = 0.6f),
-                            modifier = Modifier.padding(start = 4.dp).size(20.dp)
+                            modifier = Modifier.padding(start = 6.dp).size(20.dp)
                         )
                     }
                 }
