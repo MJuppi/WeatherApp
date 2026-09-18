@@ -82,7 +82,7 @@ fun CurrentDayInfo(
                     Text(text = "$hourTemp $userTemp", fontSize = 18.sp)
                     // Displays a weather code icon based on the weather code for the current hour
                     // and night status
-                    WeatherCode(weatherResponse.hourly.weatherCode[i], 60F, isNight)
+                    WeatherCode(weatherResponse.hourly.weatherCode[i], 72F, isNight)
                     
                     // Wind info
                     Row(verticalAlignment = Alignment.CenterVertically) {

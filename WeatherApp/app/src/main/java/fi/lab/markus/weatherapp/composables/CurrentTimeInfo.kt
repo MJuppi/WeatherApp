@@ -3,7 +3,6 @@ package fi.lab.markus.weatherapp.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -83,7 +82,7 @@ fun CurrentTimeInfo(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        WeatherCode(weatherCode, 120F, isNight)
+        WeatherCode(weatherCode, 132F, isNight)
         
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -114,7 +113,7 @@ fun CurrentTimeInfo(
             ) {
                 WeatherDetailItem(icon = windIcon, label = stringResource(id = R.string.wind), value = "$currentWind $windLabel")
                 WeatherDetailItem(icon = humidityIcon, label = stringResource(id = R.string.humidity), value = "$currentHumidity%")
-                WeatherDetailItem(icon = ultraVioletIcon, label = stringResource(id = R.string.uv_index), value = "$uvIndex", isUv = true)
+                WeatherDetailItem(icon = ultraVioletIcon, label = stringResource(id = R.string.uv_index), value = "$uvIndex")
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -129,7 +128,7 @@ fun CurrentTimeInfo(
 }
 
 @Composable
-fun WeatherDetailItem(icon: Int, label: String, value: String, isUv: Boolean = false) {
+fun WeatherDetailItem(icon: Int, label: String, value: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(100.dp)

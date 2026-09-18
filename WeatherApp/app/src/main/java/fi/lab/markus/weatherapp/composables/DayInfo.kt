@@ -111,7 +111,7 @@ fun DayInfoUI(
             ) {
                 Text(data.hour, fontSize = 14.sp, color = Color.Gray)
                 Text("${data.hourTemp} $userTemp", fontSize = 18.sp)
-                WeatherCode(code = data.hourWeatherCode, height = 50F, data.isNight)
+                WeatherCode(code = data.hourWeatherCode, height = 64F, data.isNight)
                 
                 // Wind
                 Row(verticalAlignment = Alignment.CenterVertically) {
